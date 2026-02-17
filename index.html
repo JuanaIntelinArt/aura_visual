@@ -3,187 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Vision | Tu Respiro Visual</title>
+    <title>Aura Vision Pro</title>
     <style>
-        /* Variables de color y fondos */
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --text-color: #ffffff;
-            --zen-gradient: linear-gradient(135deg, #134e5e, #71b280);
-            --forest-gradient: linear-gradient(135deg, #1d4350, #948e99);
-            --sea-gradient: linear-gradient(135deg, #2c3e50, #4ca1af);
+            /* Colores de la imagen Nano Banana */
+            --bg-top: #0b312e;
+            --bg-bottom: #1e5d7b;
+            --sun-color: #ffcc80;
+            --glass: rgba(255, 255, 255, 0.12);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            transition: background 1s ease;
-            color: var(--text-color);
-            background: var(--zen-gradient);
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
+            background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
         }
 
-        /* Fondos Dinámicos */
-        body.zen { background: var(--zen-gradient); }
-        body.forest { background: var(--forest-gradient); }
-        body.sea { background: var(--sea-gradient); }
+        /* DIBUJO DEL ESCENARIO (Bosque y Mar) */
+        .scenery {
+            position: absolute; width: 100%; height: 100%; z-index: -1;
+            background: 
+                /* El Sol al amanecer */
+                radial-gradient(circle at 50% 60%, var(--sun-color) 0%, transparent 15%),
+                /* Los árboles (siluetas) */
+                linear-gradient(90deg, transparent 10%, #05221f 10%, #05221f 12%, transparent 12%),
+                linear-gradient(90deg, transparent 80%, #05221f 80%, #05221f 83%, transparent 83%);
+            background-size: 100% 100%;
+        }
 
-        /* Tarjeta de Vidrio (Glassmorphism) */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 40px;
+        /* Ondas de Agua en la parte inferior */
+        .waves {
+            position: absolute; bottom: 0; width: 100%; height: 30%;
+            background: radial-gradient(ellipse at 50% 0%, #2980b9 0%, #1e5d7b 70%);
+            clip-path: polygon(0 20%, 10% 10%, 20% 25%, 30% 12%, 40% 30%, 50% 15%, 60% 32%, 70% 18%, 80% 35%, 90% 20%, 100% 30%, 100% 100%, 0% 100%);
+            opacity: 0.8;
+        }
+
+        /* LA TARJETA GLASSMORPHISM */
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
             padding: 40px;
-            width: 90%;
-            max-width: 600px;
+            width: 85%; max-width: 500px;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-            animation: float 6s ease-in-out infinite;
+            color: white;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+        h1 { font-weight: 400; font-size: 2.2rem; margin: 0; }
+        .status-text { opacity: 0.8; font-size: 0.9rem; margin: 10px 0; }
 
-        h1 { font-size: 2.5rem; font-weight: 600; margin-bottom: 10px; letter-spacing: -1px; }
-        p { opacity: 0.9; font-weight: 300; }
-
-        .timer-container {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-            padding: 15px 40px;
-            border-radius: 20px;
+        .timer-box {
+            background: #ffffff;
+            color: #2c3e50;
+            font-size: 3rem;
+            font-weight: bold;
+            padding: 10px 30px;
+            border-radius: 15px;
             display: inline-block;
-            margin: 30px 0;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .timer-display { font-size: 3.5rem; font-weight: 700; font-family: monospace; }
-
-        .challenge-box {
-            margin-top: 20px;
+        .challenge-container {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            min-height: 100px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         .btn-group {
-            margin-top: 40px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
+            margin-top: 30px;
+            display: flex; gap: 10px; justify-content: center;
         }
 
         button {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
+            padding: 8px 18px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transition: 0.3s;
+            font-size: 0.85rem;
         }
 
-        button:hover {
-            background: white;
-            color: #333;
-            transform: scale(1.05);
-        }
-
-        .active-btn { background: white; color: #333; }
+        button:hover { background: white; color: #0b312e; }
+        .active-btn { background: white; color: #0b312e; font-weight: bold; }
 
     </style>
 </head>
-<body class="zen">
+<body>
 
-    <div class="glass-card">
+    <div class="scenery"></div>
+    <div class="waves"></div>
+
+    <div class="glass-panel">
         <h1>Aura Vision</h1>
-        <p id="status">Enfoque activo. Próximo descanso en:</p>
+        <div class="status-text">Enfoque activo. Próximo descanso en:</div>
+        
+        <div class="timer-box" id="timer">02:00:00</div>
 
-        <div class="timer-container">
-            <div class="timer-display" id="timer">02:00:00</div>
-        </div>
-
-        <div class="challenge-box" id="challenge-area">
-            <p id="challenge-text">Prepara tu vista para la calma...</p>
+        <div class="challenge-container">
+            <strong>Reto del momento:</strong><br>
+            <span id="challenge-text">Busca una superficie de madera y nota sus vetas...</span>
         </div>
 
         <div class="btn-group">
-            <button onclick="setTheme('zen')" id="btn-zen">🌿 Zen</button>
-            <button onclick="setTheme('forest')" id="btn-forest">🌲 Bosque</button>
-            <button onclick="setTheme('sea')" id="btn-sea">🌊 Mar</button>
+            <button onclick="changeTheme('zen')" id="btn-zen" class="active-btn">🍃 Zen</button>
+            <button onclick="changeTheme('forest')" id="btn-forest">🌲 Bosque</button>
+            <button onclick="changeTheme('sea')" id="btn-sea">🌊 Mar</button>
         </div>
     </div>
 
     <script>
         let timeLeft = 7200;
-        let isBreak = false;
-
         const challenges = {
-            zen: "Busca una superficie natural. Nota su textura por 20 segundos.",
-            forest: "Encuentra 3 tonalidades de verde distintas en tu habitación.",
-            sea: "Mira el punto más lejano por la ventana e imagina el horizonte."
-        };
-
-        function setTheme(theme) {
-            document.body.className = theme;
-            document.querySelectorAll('button').forEach(btn => btn.classList.remove('active-btn'));
-            document.getElementById(`btn-${theme}`).classList.add('active-btn');
-            updateChallenge();
-        }
-
-        function updateChallenge() {
-            const currentTheme = document.body.className;
-            document.getElementById('challenge-text').innerText = challenges[currentTheme];
-        }
-
-        function updateTimer() {
-            const h = Math.floor(timeLeft / 3600);
-            const m = Math.floor((timeLeft % 3600) / 60);
-            const s = timeLeft % 60;
-            
-            document.getElementById('timer').innerText = 
-                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-
-            if (timeLeft <= 0) {
-                if (!isBreak) startBreak();
-                else endBreak();
-            } else {
-                timeLeft--;
-            }
-        }
-
-        function startBreak() {
-            isBreak = true;
-            timeLeft = 300;
-            document.getElementById('status').innerText = "✨ MOMENTO DE DESCANSO";
-            document.body.style.background = "#fff"; // Destello blanco para avisar
-            setTimeout(() => setTheme(document.body.className), 500);
-            alert("¡Hora de un respiro! Mira a tu alrededor.");
-        }
-
-        function endBreak() {
-            isBreak = false;
-            timeLeft = 7200;
-            document.getElementById('status').innerText = "Enfoque activo. Próximo descanso en:";
-        }
-
-        setInterval(updateTimer, 1000);
-    </script>
-</body>
-</html>
+            zen: "Busca una superficie de madera. Nota su textura por 20 segundos.",
+            forest: "Encuentra 3 tonalidades de verde distintas a tu alrededor.",
+            sea: "Mira el objeto más lejano por la ventana y rel
