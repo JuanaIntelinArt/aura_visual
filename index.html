@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Vision | Tu Espacio de Calma</title>
+    <style>
+        :root {
+            --zen-bg: #e0f2f1; --zen-text: #2e7d32;
+            --forest-bg: #dcedc8; --forest-text: #33691e;
+            --sea-bg: #e1f5fe; --sea-text: #01579b;
+            --transition: all 0.8s ease;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: var(--transition);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Estados de Ambiente */
+        body.zen { background-color: var(--zen-bg); color: var(--zen-text); }
+        body.forest { background-color: var(--forest-bg); color: var(--forest-text); }
+        body.sea { background-color: var(--sea-bg); color: var(--sea-text); }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 { font-weight: 300; letter-spacing: 2px; }
+        .timer { font-size: 4rem; font-weight: bold; margin: 1rem 0; opacity: 0.8; }
+        
+        .challenge-box {
+            display: none;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-group { margin-top: 2rem; display: flex; gap: 10px; justify-content: center; }
+
+        button {
+            padding: 10px 20px; border: none; border-radius: 15px;
+            cursor: pointer; font-weight: 600; transition: 0.3s;
+            background: rgba(255,255,255,0.6); color: inherit;
+        }
+
+        button:hover { transform: scale(1.05); background: rgba(255,255,255,0.9); }
+
+        .active-btn { border: 2px solid currentColor; }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none;
+            align-items: center; justify-content: center; z-index: 100;
+        }
+    </style>
+</head>
+<body class="zen">
+
+    <div class="container" id="main-ui">
+        <h1 id="title">Aura Vision</h1>
+        <p id="status">Enfoque activo. Próximo descanso en:</p>
+        <div class="timer" id="timer-display">02:00:00</div>
+        
+        <div class="challenge-box" id="challenge">
+            <h2 id="challenge-text">Mira el objeto más lejano...</h2>
+            <p>Siente la profundidad y relaja tu mirada.</p>
+        </div>
+
+        <div class="btn-group">
+            <button onclick="setTheme('zen')" id="btn-zen">🍃 Zen</button>
+            <button onclick="setTheme('forest')" id="btn-forest">🌲 Bosque</button>
+            <button onclick="setTheme('sea')" id="btn-sea">🌊 Mar</button>
+        </div>
+        <p style="font-size: 0.8rem; margin-top: 20px; opacity: 0.6;">Mantén esta pestaña abierta para recibir alertas.</p>
+    </div>
+
+    <script>
+        let timeLeft = 7200; // 2 horas en segundos
+        let isBreak = false;
+
+        const challenges = {
+            zen: "Busca una superficie de madera o piedra. Nota su textura por 20 segundos.",
+            forest: "Encuentra 3 tonalidades de verde distintas en tu entorno.",
+            sea: "Mira el horizonte o la pared más lejana. Imagina la inmensidad del azul."
+        };
+
+        function setTheme(theme) {
+            document.body.className = theme;
+            updateChallenge();
+        }
+
+        function updateChallenge() {
+            const currentTheme = document.body.className;
+            document.getElementById('challenge-text').innerText = challenges[currentTheme];
+        }
+
+        function updateTimer() {
+            const hours = Math.floor(timeLeft / 3600);
+            const mins = Math.floor((timeLeft % 3600) / 60);
+            const secs = timeLeft % 60;
+            
+            document.getElementById('timer-display').innerText = 
+                `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+            if (timeLeft <= 0) {
+                if (!isBreak) startBreak();
+                else endBreak();
+            } else {
+                timeLeft--;
+            }
+        }
+
+        function startBreak() {
+            isBreak = true;
+            timeLeft = 300; // 5 min de descanso
+            document.getElementById('status').innerText = "🌿 MOMENTO DE DESCANSO";
+            document.getElementById('challenge').style.display = "block";
+            // Sonido sutil (puedes añadir un archivo .mp3 aquí)
+            alert("Es hora de descansar la vista. Mira tu entorno.");
+        }
+
+        function endBreak() {
+            isBreak = false;
+            timeLeft = 7200;
+            document.getElementById('status').innerText = "Enfoque activo. Próximo descanso en:";
+            document.getElementById('challenge').style.display = "none";
+        }
+
+        setInterval(updateTimer, 1000);
+        updateChallenge();
+    </script>
+</body>
+</html>
