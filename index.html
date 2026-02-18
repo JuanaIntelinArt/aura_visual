@@ -6,11 +6,11 @@
     <title>Aura Vision Pro</title>
     <style>
         :root {
-            /* Colores de la imagen Nano Banana */
             --bg-top: #0b312e;
             --bg-bottom: #1e5d7b;
             --sun-color: #ffcc80;
             --glass: rgba(255, 255, 255, 0.12);
+            --transition-speed: 0.8s;
         }
 
         body, html {
@@ -19,84 +19,84 @@
             font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
             background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+            transition: background var(--transition-speed) ease;
         }
 
-        /* DIBUJO DEL ESCENARIO (Bosque y Mar) */
+        /* ESCENARIO ARTÍSTICO */
         .scenery {
             position: absolute; width: 100%; height: 100%; z-index: -1;
             background: 
-                /* El Sol al amanecer */
-                radial-gradient(circle at 50% 60%, var(--sun-color) 0%, transparent 15%),
-                /* Los árboles (siluetas) */
-                linear-gradient(90deg, transparent 10%, #05221f 10%, #05221f 12%, transparent 12%),
+                /* El Sol */
+                radial-gradient(circle at 50% 65%, var(--sun-color) 0%, transparent 15%),
+                /* Siluetas de Árboles */
+                linear-gradient(90deg, transparent 15%, #05221f 15%, #05221f 17%, transparent 17%),
                 linear-gradient(90deg, transparent 80%, #05221f 80%, #05221f 83%, transparent 83%);
-            background-size: 100% 100%;
         }
 
-        /* Ondas de Agua en la parte inferior */
         .waves {
-            position: absolute; bottom: 0; width: 100%; height: 30%;
-            background: radial-gradient(ellipse at 50% 0%, #2980b9 0%, #1e5d7b 70%);
-            clip-path: polygon(0 20%, 10% 10%, 20% 25%, 30% 12%, 40% 30%, 50% 15%, 60% 32%, 70% 18%, 80% 35%, 90% 20%, 100% 30%, 100% 100%, 0% 100%);
-            opacity: 0.8;
+            position: absolute; bottom: 0; width: 100%; height: 35%;
+            background: linear-gradient(to top, rgba(30, 93, 123, 0.8), transparent);
+            clip-path: polygon(0 20%, 15% 10%, 30% 25%, 45% 10%, 60% 30%, 75% 15%, 90% 35%, 100% 20%, 100% 100%, 0% 100%);
+            backdrop-filter: blur(2px);
         }
 
-        /* LA TARJETA GLASSMORPHISM */
+        /* TARJETA GLASSMORPHISM */
         .glass-panel {
             background: var(--glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            padding: 40px;
-            width: 85%; max-width: 500px;
+            border-radius: 40px;
+            padding: 50px;
+            width: 85%; max-width: 550px;
             text-align: center;
             color: white;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            z-index: 10;
         }
 
-        h1 { font-weight: 400; font-size: 2.2rem; margin: 0; }
-        .status-text { opacity: 0.8; font-size: 0.9rem; margin: 10px 0; }
+        h1 { font-weight: 300; font-size: 2.5rem; margin-bottom: 5px; }
+        .status-text { opacity: 0.7; font-size: 0.9rem; margin-bottom: 25px; }
 
         .timer-box {
-            background: #ffffff;
-            color: #2c3e50;
-            font-size: 3rem;
-            font-weight: bold;
-            padding: 10px 30px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #1a3a3a;
+            font-size: 3.5rem;
+            font-weight: 800;
+            padding: 15px 40px;
+            border-radius: 25px;
             display: inline-block;
-            margin: 20px 0;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            font-family: 'Courier New', Courier, monospace;
         }
 
         .challenge-container {
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 10px;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            font-size: 1.1rem;
+            border-left: 4px solid var(--sun-color);
         }
 
         .btn-group {
-            margin-top: 30px;
-            display: flex; gap: 10px; justify-content: center;
+            margin-top: 35px;
+            display: flex; gap: 15px; justify-content: center;
         }
 
         button {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 8px 18px;
-            border-radius: 20px;
+            padding: 10px 22px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: 0.3s;
-            font-size: 0.85rem;
+            transition: 0.4s;
+            font-weight: 500;
         }
 
-        button:hover { background: white; color: #0b312e; }
-        .active-btn { background: white; color: #0b312e; font-weight: bold; }
+        button:hover { background: white; color: #0b312e; transform: scale(1.05); }
+        .active-btn { background: white; color: #0b312e; box-shadow: 0 5px 15px rgba(255,255,255,0.3); }
 
     </style>
 </head>
@@ -112,8 +112,7 @@
         <div class="timer-box" id="timer">02:00:00</div>
 
         <div class="challenge-container">
-            <strong>Reto del momento:</strong><br>
-            <span id="challenge-text">Busca una superficie de madera y nota sus vetas...</span>
+            <span id="challenge-text">Prepara tu mirada para conectar con el entorno...</span>
         </div>
 
         <div class="btn-group">
@@ -128,4 +127,40 @@
         const challenges = {
             zen: "Busca una superficie de madera. Nota su textura por 20 segundos.",
             forest: "Encuentra 3 tonalidades de verde distintas a tu alrededor.",
-            sea: "Mira el objeto más lejano por la ventana y rel
+            sea: "Mira el objeto más lejano por la ventana y relaja la mandíbula."
+        };
+
+        function changeTheme(theme) {
+            document.querySelectorAll('button').forEach(b => b.classList.remove('active-btn'));
+            document.getElementById('btn-' + theme).classList.add('active-btn');
+            document.getElementById('challenge-text').innerText = challenges[theme];
+            
+            const root = document.documentElement;
+            if(theme === 'forest') {
+                root.style.setProperty('--bg-top', '#0a2e12');
+                root.style.setProperty('--bg-bottom', '#2c5e1a');
+                root.style.setProperty('--sun-color', '#aed581');
+            } else if(theme === 'sea') {
+                root.style.setProperty('--bg-top', '#012a4a');
+                root.style.setProperty('--bg-bottom', '#2a6f97');
+                root.style.setProperty('--sun-color', '#89c2d9');
+            } else {
+                root.style.setProperty('--bg-top', '#0b312e');
+                root.style.setProperty('--bg-bottom', '#1e5d7b');
+                root.style.setProperty('--sun-color', '#ffcc80');
+            }
+        }
+
+        function updateTimer() {
+            const h = Math.floor(timeLeft / 3600);
+            const m = Math.floor((timeLeft % 3600) / 60);
+            const s = timeLeft % 60;
+            document.getElementById('timer').innerText = 
+                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            if (timeLeft > 0) timeLeft--;
+        }
+
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
