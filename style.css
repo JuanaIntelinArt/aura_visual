@@ -1,0 +1,76 @@
+:root {
+    --bg-top: #0b312e;
+    --bg-bottom: #1e5d7b;
+    --sun: #ffcc80;
+    --glass: rgba(255, 255, 255, 0.12);
+    --gold: #ffd700;
+}
+
+body, html {
+    margin: 0; padding: 0; height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+    transition: all 1s ease;
+}
+
+/* --- DIBUJO DEL ESCENARIO --- */
+.art-bg {
+    position: absolute; width: 100%; height: 100%; z-index: 1;
+}
+
+.sun {
+    position: absolute; top: 55%; left: 50%;
+    width: 140px; height: 140px;
+    background: var(--sun);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(10px);
+    box-shadow: 0 0 80px var(--sun);
+}
+
+.waves {
+    position: absolute; bottom: 0; width: 100%; height: 40%;
+    background: #1e5d7b;
+    /* Este dibujo crea la forma de las olas */
+    clip-path: polygon(0% 45%, 15% 30%, 30% 45%, 45% 30%, 60% 45%, 75% 30%, 90% 45%, 100% 30%, 100% 100%, 0% 100%);
+    opacity: 0.8;
+}
+
+/* --- TARJETA PRINCIPAL --- */
+.glass-card {
+    position: relative; z-index: 10;
+    background: var(--glass);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px; padding: 40px;
+    width: 90%; max-width: 450px;
+    text-align: center; color: white;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.timer-display {
+    background: white; color: #0b312e;
+    font-size: 3.5rem; font-weight: 800;
+    padding: 15px 30px; border-radius: 25px;
+    margin: 20px 0; display: inline-block;
+}
+
+.btn-plus {
+    background: var(--gold); color: black;
+    border: none; padding: 12px 30px;
+    border-radius: 50px; font-weight: bold;
+    cursor: pointer; margin-top: 20px;
+}
+
+button:hover { transform: scale(1.05); }
+
+/* MODAL PLUS */
+#modal-plus {
+    display: none; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.9);
+    border-radius: 40px; z-index: 20;
+    flex-direction: column; align-items: center; justify-content: center;
+}

@@ -3,168 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Vision Pro | Premium</title>
-    <link rel="manifest" href="data:application/json;base64,ewogICJkZWZhdWx0X2xvY2FsZSI6ICJlcyIsCiAgIm5hbWUiOiAiQXVyYSBWaXNpb24iLAogICJzaG9ydF9uYW1lIjogIkF1cmEiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBiMzEyZSIsCiAgInRoZW1lX2NvbG9yIjogIzBiMzEyZSIKfQ==">
-    
-    <style>
-        :root {
-            --bg-top: #0b312e;
-            --bg-bottom: #1e5d7b;
-            --sun: #ffcc80;
-            --glass: rgba(255, 255, 255, 0.12);
-            --gold: #ffd700;
-        }
-
-        body, html {
-            margin: 0; padding: 0; height: 100vh;
-            font-family: 'Segoe UI', sans-serif;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
-            transition: all 1s ease;
-        }
-
-        /* ESCENARIO */
-        .art-bg { position: absolute; width: 100%; height: 100%; z-index: -1; }
-        .sun { position: absolute; top: 60%; left: 50%; width: 120px; height: 120px; background: var(--sun); border-radius: 50%; transform: translate(-50%, -50%); filter: blur(15px); }
-        .waves { position: absolute; bottom: 0; width: 100%; height: 25%; background: #1e5d7b; clip-path: polygon(0% 45%, 15% 35%, 32% 50%, 48% 38%, 100% 48%, 100% 100%, 0% 100%); opacity: 0.6; }
-
-        /* TARJETA */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 40px; padding: 35px;
-            width: 90%; max-width: 500px;
-            text-align: center; color: white;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            z-index: 10; position: relative;
-        }
-
-        .timer-display { background: white; color: #0b312e; font-size: 3rem; font-weight: 800; padding: 10px 25px; border-radius: 20px; display: inline-block; margin: 15px 0; font-family: monospace; }
-
-        /* BOTONES */
-        .btn-group { display: flex; gap: 8px; justify-content: center; margin-top: 15px; }
-        button { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 15px; border-radius: 50px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; }
-        button:hover { background: white; color: #0b312e; }
-        
-        .btn-plus { background: var(--gold); color: #000; font-weight: bold; border: none; margin-top: 20px; padding: 10px 25px; }
-        .btn-plus:hover { background: #fff; transform: scale(1.05); }
-
-        .btn-install { background: #4caf50; color: white; border: none; margin-top: 10px; }
-
-        /* MODAL PLUS */
-        #modal-plus {
-            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); border-radius: 40px;
-            padding: 30px; z-index: 20; flex-direction: column; align-items: center; justify-content: center;
-        }
-
-        .price-tag { font-size: 1.5rem; color: var(--gold); margin: 15px 0; }
-    </style>
+    <title>Aura Vision Pro</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="art-bg"><div class="sun"></div><div class="waves"></div></div>
+    <div class="art-bg">
+        <div class="sun"></div>
+        <div class="waves"></div>
+    </div>
 
     <div class="glass-card">
-        <h1 style="font-weight: 300; margin: 0;">Aura Vision</h1>
+        <h1>Aura Vision</h1>
         <p id="status">Enfoque activo...</p>
-
         <div class="timer-display" id="timer">02:00:00</div>
 
         <div class="btn-group">
-            <button onclick="setMode('zen')" id="btn-zen">🍃 Zen</button>
-            <button onclick="setMode('forest')" id="btn-forest">🌲 Bosque</button>
-            <button onclick="setMode('sea')" id="btn-sea">🌊 Mar</button>
+            <button onclick="setTheme('zen')">🍃 Zen</button>
+            <button onclick="setTheme('sea')">🌊 Mar</button>
         </div>
 
-        <button class="btn-plus" onclick="togglePlus()">✨ Obtener PLUS</button>
-        <button id="installBtn" class="btn-install" style="display:none;">📥 Instalar en PC</button>
-
+        <button class="btn-plus" onclick="togglePlus()">✨ Aura PLUS ($1)</button>
+        
         <div id="modal-plus">
-            <h2 style="color:var(--gold)">Aura Plus</h2>
-            <p>Accede a ejercicios visuales guiados por IA y recordatorios invasivos de salud.</p>
-            <div class="price-tag">1$ / mes</div>
-            <p style="font-size: 0.8rem;">Forma de pago: PayPal / Tarjeta</p>
-            <div class="exercise-box" id="plus-exercises" style="text-align: left; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin: 10px 0;">
-                • Ejercicio 20-20-20 guiado<br>
-                • Masaje orbital paso a paso<br>
-                • Bloqueo de pantalla inteligente
-            </div>
-            <button onclick="alert('Redirigiendo a pasarela de pago...')" style="background:var(--gold); color:black">Suscribirme Ahora</button>
-            <button onclick="togglePlus()" style="margin-top:10px; border:none; background:transparent">Volver</button>
+            <h2 style="color: gold;">Aura Plus</h2>
+            <p>Ejercicios avanzados de enfoque</p>
+            <p>Precio: 1 USD / mes</p>
+            <button onclick="togglePlus()">Cerrar</button>
         </div>
     </div>
 
     <script>
         let timeLeft = 7200;
-        let isBreak = false;
-
-        // Notificaciones e Instalación
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('installBtn').style.display = 'inline-block';
-        });
-
-        document.getElementById('installBtn').addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') document.getElementById('installBtn').style.display = 'none';
-            }
-        });
-
-        function togglePlus() {
-            const modal = document.getElementById('modal-plus');
-            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function setMode(mode) {
-            const colors = {
-                zen: {t:'#0b312e', b:'#1e5d7b'},
-                forest: {t:'#0a2e12', b:'#2c5e1a'},
-                sea: {t:'#012a4a', b:'#2a6f97'}
-            };
-            document.documentElement.style.setProperty('--bg-top', colors[mode].t);
-            document.documentElement.style.setProperty('--bg-bottom', colors[mode].b);
-        }
-
         function updateTimer() {
-            const h = Math.floor(timeLeft / 3600);
-            const m = Math.floor((timeLeft % 3600) / 60);
-            const s = timeLeft % 60;
+            let h = Math.floor(timeLeft / 3600);
+            let m = Math.floor((timeLeft % 3600) / 60);
+            let s = timeLeft % 60;
             document.getElementById('timer').innerText = 
-                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-
-            if (timeLeft <= 0) {
-                if (!isBreak) {
-                    isBreak = true; timeLeft = 300;
-                    document.getElementById('status').innerText = "🚨 ¡DESCANSO VISUAL!";
-                    notifyUser();
-                } else {
-                    isBreak = false; timeLeft = 7200;
-                    document.getElementById('status').innerText = "Enfoque activo...";
-                }
-            } else { timeLeft--; }
+                `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            if(timeLeft > 0) timeLeft--;
         }
-
-        function notifyUser() {
-            if (Notification.permission === "granted") {
-                new Notification("Aura Vision: ¡Pausa Necesaria!", {
-                    body: "Es hora de tus ejercicios visuales. No ignores tu salud.",
-                    icon: "https://cdn-icons-png.flaticon.com/512/1040/1040238.png"
-                });
-            } else {
-                Notification.requestPermission();
-                alert("🚨 ¡ES HORA DE DESCANSAR! Haz tus ejercicios.");
-            }
+        function togglePlus() {
+            const m = document.getElementById('modal-plus');
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
         }
-
         setInterval(updateTimer, 1000);
-        if (Notification.permission !== "denied") Notification.requestPermission();
     </script>
 </body>
 </html>
