@@ -3,152 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Vision Pro</title>
+    <title>Aura Vision Pro | Premium</title>
+    <link rel="manifest" href="data:application/json;base64,ewogICJkZWZhdWx0X2xvY2FsZSI6ICJlcyIsCiAgIm5hbWUiOiAiQXVyYSBWaXNpb24iLAogICJzaG9ydF9uYW1lIjogIkF1cmEiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBiMzEyZSIsCiAgInRoZW1lX2NvbG9yIjogIzBiMzEyZSIKfQ==">
+    
     <style>
         :root {
             --bg-top: #0b312e;
             --bg-bottom: #1e5d7b;
-            --sun-color: #ffcc80;
+            --sun: #ffcc80;
             --glass: rgba(255, 255, 255, 0.12);
-            --transition-speed: 0.8s;
+            --gold: #ffd700;
         }
 
         body, html {
-            margin: 0; padding: 0; height: 100%;
-            display: flex; align-items: center; justify-content: center;
+            margin: 0; padding: 0; height: 100vh;
             font-family: 'Segoe UI', sans-serif;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
             background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
-            transition: background var(--transition-speed) ease;
+            transition: all 1s ease;
         }
 
-        /* ESCENARIO ARTÍSTICO */
-        .scenery {
-            position: absolute; width: 100%; height: 100%; z-index: -1;
-            background: 
-                /* El Sol */
-                radial-gradient(circle at 50% 65%, var(--sun-color) 0%, transparent 15%),
-                /* Siluetas de Árboles */
-                linear-gradient(90deg, transparent 15%, #05221f 15%, #05221f 17%, transparent 17%),
-                linear-gradient(90deg, transparent 80%, #05221f 80%, #05221f 83%, transparent 83%);
-        }
+        /* ESCENARIO */
+        .art-bg { position: absolute; width: 100%; height: 100%; z-index: -1; }
+        .sun { position: absolute; top: 60%; left: 50%; width: 120px; height: 120px; background: var(--sun); border-radius: 50%; transform: translate(-50%, -50%); filter: blur(15px); }
+        .waves { position: absolute; bottom: 0; width: 100%; height: 25%; background: #1e5d7b; clip-path: polygon(0% 45%, 15% 35%, 32% 50%, 48% 38%, 100% 48%, 100% 100%, 0% 100%); opacity: 0.6; }
 
-        .waves {
-            position: absolute; bottom: 0; width: 100%; height: 35%;
-            background: linear-gradient(to top, rgba(30, 93, 123, 0.8), transparent);
-            clip-path: polygon(0 20%, 15% 10%, 30% 25%, 45% 10%, 60% 30%, 75% 15%, 90% 35%, 100% 20%, 100% 100%, 0% 100%);
-            backdrop-filter: blur(2px);
-        }
-
-        /* TARJETA GLASSMORPHISM */
-        .glass-panel {
+        /* TARJETA */
+        .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 40px;
-            padding: 50px;
-            width: 85%; max-width: 550px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-            z-index: 10;
+            border-radius: 40px; padding: 35px;
+            width: 90%; max-width: 500px;
+            text-align: center; color: white;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            z-index: 10; position: relative;
         }
 
-        h1 { font-weight: 300; font-size: 2.5rem; margin-bottom: 5px; }
-        .status-text { opacity: 0.7; font-size: 0.9rem; margin-bottom: 25px; }
+        .timer-display { background: white; color: #0b312e; font-size: 3rem; font-weight: 800; padding: 10px 25px; border-radius: 20px; display: inline-block; margin: 15px 0; font-family: monospace; }
 
-        .timer-box {
-            background: rgba(255, 255, 255, 0.95);
-            color: #1a3a3a;
-            font-size: 3.5rem;
-            font-weight: 800;
-            padding: 15px 40px;
-            border-radius: 25px;
-            display: inline-block;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            font-family: 'Courier New', Courier, monospace;
+        /* BOTONES */
+        .btn-group { display: flex; gap: 8px; justify-content: center; margin-top: 15px; }
+        button { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 15px; border-radius: 50px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; }
+        button:hover { background: white; color: #0b312e; }
+        
+        .btn-plus { background: var(--gold); color: #000; font-weight: bold; border: none; margin-top: 20px; padding: 10px 25px; }
+        .btn-plus:hover { background: #fff; transform: scale(1.05); }
+
+        .btn-install { background: #4caf50; color: white; border: none; margin-top: 10px; }
+
+        /* MODAL PLUS */
+        #modal-plus {
+            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); border-radius: 40px;
+            padding: 30px; z-index: 20; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        .challenge-container {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 20px;
-            padding: 25px;
-            font-size: 1.1rem;
-            border-left: 4px solid var(--sun-color);
-        }
-
-        .btn-group {
-            margin-top: 35px;
-            display: flex; gap: 15px; justify-content: center;
-        }
-
-        button {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 10px 22px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: 0.4s;
-            font-weight: 500;
-        }
-
-        button:hover { background: white; color: #0b312e; transform: scale(1.05); }
-        .active-btn { background: white; color: #0b312e; box-shadow: 0 5px 15px rgba(255,255,255,0.3); }
-
+        .price-tag { font-size: 1.5rem; color: var(--gold); margin: 15px 0; }
     </style>
 </head>
 <body>
 
-    <div class="scenery"></div>
-    <div class="waves"></div>
+    <div class="art-bg"><div class="sun"></div><div class="waves"></div></div>
 
-    <div class="glass-panel">
-        <h1>Aura Vision</h1>
-        <div class="status-text">Enfoque activo. Próximo descanso en:</div>
-        
-        <div class="timer-box" id="timer">02:00:00</div>
+    <div class="glass-card">
+        <h1 style="font-weight: 300; margin: 0;">Aura Vision</h1>
+        <p id="status">Enfoque activo...</p>
 
-        <div class="challenge-container">
-            <span id="challenge-text">Prepara tu mirada para conectar con el entorno...</span>
-        </div>
+        <div class="timer-display" id="timer">02:00:00</div>
 
         <div class="btn-group">
-            <button onclick="changeTheme('zen')" id="btn-zen" class="active-btn">🍃 Zen</button>
-            <button onclick="changeTheme('forest')" id="btn-forest">🌲 Bosque</button>
-            <button onclick="changeTheme('sea')" id="btn-sea">🌊 Mar</button>
+            <button onclick="setMode('zen')" id="btn-zen">🍃 Zen</button>
+            <button onclick="setMode('forest')" id="btn-forest">🌲 Bosque</button>
+            <button onclick="setMode('sea')" id="btn-sea">🌊 Mar</button>
+        </div>
+
+        <button class="btn-plus" onclick="togglePlus()">✨ Obtener PLUS</button>
+        <button id="installBtn" class="btn-install" style="display:none;">📥 Instalar en PC</button>
+
+        <div id="modal-plus">
+            <h2 style="color:var(--gold)">Aura Plus</h2>
+            <p>Accede a ejercicios visuales guiados por IA y recordatorios invasivos de salud.</p>
+            <div class="price-tag">1$ / mes</div>
+            <p style="font-size: 0.8rem;">Forma de pago: PayPal / Tarjeta</p>
+            <div class="exercise-box" id="plus-exercises" style="text-align: left; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin: 10px 0;">
+                • Ejercicio 20-20-20 guiado<br>
+                • Masaje orbital paso a paso<br>
+                • Bloqueo de pantalla inteligente
+            </div>
+            <button onclick="alert('Redirigiendo a pasarela de pago...')" style="background:var(--gold); color:black">Suscribirme Ahora</button>
+            <button onclick="togglePlus()" style="margin-top:10px; border:none; background:transparent">Volver</button>
         </div>
     </div>
 
     <script>
         let timeLeft = 7200;
-        const challenges = {
-            zen: "Busca una superficie de madera. Nota su textura por 20 segundos.",
-            forest: "Encuentra 3 tonalidades de verde distintas a tu alrededor.",
-            sea: "Mira el objeto más lejano por la ventana y relaja la mandíbula."
-        };
+        let isBreak = false;
 
-        function changeTheme(theme) {
-            document.querySelectorAll('button').forEach(b => b.classList.remove('active-btn'));
-            document.getElementById('btn-' + theme).classList.add('active-btn');
-            document.getElementById('challenge-text').innerText = challenges[theme];
-            
-            const root = document.documentElement;
-            if(theme === 'forest') {
-                root.style.setProperty('--bg-top', '#0a2e12');
-                root.style.setProperty('--bg-bottom', '#2c5e1a');
-                root.style.setProperty('--sun-color', '#aed581');
-            } else if(theme === 'sea') {
-                root.style.setProperty('--bg-top', '#012a4a');
-                root.style.setProperty('--bg-bottom', '#2a6f97');
-                root.style.setProperty('--sun-color', '#89c2d9');
-            } else {
-                root.style.setProperty('--bg-top', '#0b312e');
-                root.style.setProperty('--bg-bottom', '#1e5d7b');
-                root.style.setProperty('--sun-color', '#ffcc80');
+        // Notificaciones e Instalación
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBtn').style.display = 'inline-block';
+        });
+
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') document.getElementById('installBtn').style.display = 'none';
             }
+        });
+
+        function togglePlus() {
+            const modal = document.getElementById('modal-plus');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function setMode(mode) {
+            const colors = {
+                zen: {t:'#0b312e', b:'#1e5d7b'},
+                forest: {t:'#0a2e12', b:'#2c5e1a'},
+                sea: {t:'#012a4a', b:'#2a6f97'}
+            };
+            document.documentElement.style.setProperty('--bg-top', colors[mode].t);
+            document.documentElement.style.setProperty('--bg-bottom', colors[mode].b);
         }
 
         function updateTimer() {
@@ -157,10 +138,33 @@
             const s = timeLeft % 60;
             document.getElementById('timer').innerText = 
                 `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-            if (timeLeft > 0) timeLeft--;
+
+            if (timeLeft <= 0) {
+                if (!isBreak) {
+                    isBreak = true; timeLeft = 300;
+                    document.getElementById('status').innerText = "🚨 ¡DESCANSO VISUAL!";
+                    notifyUser();
+                } else {
+                    isBreak = false; timeLeft = 7200;
+                    document.getElementById('status').innerText = "Enfoque activo...";
+                }
+            } else { timeLeft--; }
+        }
+
+        function notifyUser() {
+            if (Notification.permission === "granted") {
+                new Notification("Aura Vision: ¡Pausa Necesaria!", {
+                    body: "Es hora de tus ejercicios visuales. No ignores tu salud.",
+                    icon: "https://cdn-icons-png.flaticon.com/512/1040/1040238.png"
+                });
+            } else {
+                Notification.requestPermission();
+                alert("🚨 ¡ES HORA DE DESCANSAR! Haz tus ejercicios.");
+            }
         }
 
         setInterval(updateTimer, 1000);
+        if (Notification.permission !== "denied") Notification.requestPermission();
     </script>
 </body>
 </html>
