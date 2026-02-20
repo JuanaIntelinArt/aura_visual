@@ -1,76 +1,87 @@
 :root {
-    --bg-top: #0b312e;
-    --bg-bottom: #1e5d7b;
-    --sun: #ffcc80;
-    --glass: rgba(255, 255, 255, 0.12);
-    --gold: #ffd700;
+    --glass: rgba(255, 255, 255, 0.15);
+    --text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
 }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body, html {
-    margin: 0; padding: 0; height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-    background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
-    transition: all 1s ease;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    text-align: center;
 }
 
-/* --- DIBUJO DEL ESCENARIO --- */
-.art-bg {
-    position: absolute; width: 100%; height: 100%; z-index: 1;
+/* DETECCIÓN DE FONDO AUTOMÁTICA */
+body {
+    background: url('frontPC.png') no-repeat center center fixed;
+    background-size: cover;
 }
 
-.sun {
-    position: absolute; top: 55%; left: 50%;
-    width: 140px; height: 140px;
-    background: var(--sun);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    filter: blur(10px);
-    box-shadow: 0 0 80px var(--sun);
+@media (max-width: 768px) {
+    body {
+        background: url('frontCelu.png') no-repeat center center fixed;
+        background-size: cover;
+    }
 }
 
-.waves {
-    position: absolute; bottom: 0; width: 100%; height: 40%;
-    background: #1e5d7b;
-    /* Este dibujo crea la forma de las olas */
-    clip-path: polygon(0% 45%, 15% 30%, 30% 45%, 45% 30%, 60% 45%, 75% 30%, 90% 45%, 100% 30%, 100% 100%, 0% 100%);
+/* TARJETA GLASSMORPHISM */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 35px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+h1 { font-size: 2.8rem; text-shadow: var(--text-shadow); }
+.subtitle { font-weight: 300; opacity: 0.9; margin-bottom: 20px; }
+
+.timer-display {
+    background: rgba(255, 255, 255, 0.9);
+    color: #1a3a3a;
+    font-size: 3.5rem;
+    font-weight: 800;
+    padding: 10px 25px;
+    border-radius: 20px;
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.challenge-box {
+    background: rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 20px;
+    border-left: 4px solid #fff;
+    text-align: left;
+}
+
+.importance-msg {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
     opacity: 0.8;
 }
 
-/* --- TARJETA PRINCIPAL --- */
-.glass-card {
-    position: relative; z-index: 10;
-    background: var(--glass);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 40px; padding: 40px;
-    width: 90%; max-width: 450px;
-    text-align: center; color: white;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+.btn-group { display: flex; gap: 10px; justify-content: center; }
+
+button {
+    background: white;
+    color: #1a3a3a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.timer-display {
-    background: white; color: #0b312e;
-    font-size: 3.5rem; font-weight: 800;
-    padding: 15px 30px; border-radius: 25px;
-    margin: 20px 0; display: inline-block;
-}
-
-.btn-plus {
-    background: var(--gold); color: black;
-    border: none; padding: 12px 30px;
-    border-radius: 50px; font-weight: bold;
-    cursor: pointer; margin-top: 20px;
-}
-
-button:hover { transform: scale(1.05); }
-
-/* MODAL PLUS */
-#modal-plus {
-    display: none; position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%; background: rgba(0,0,0,0.9);
-    border-radius: 40px; z-index: 20;
-    flex-direction: column; align-items: center; justify-content: center;
-}
+button:hover { transform: scale(1.05); background: #eee; }

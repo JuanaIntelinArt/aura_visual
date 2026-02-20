@@ -3,51 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Vision Pro</title>
+    <title>Aura Vision | Salud Ocular</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="art-bg">
-        <div class="sun"></div>
-        <div class="waves"></div>
-    </div>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
 
     <div class="glass-card">
-        <h1>Aura Vision</h1>
-        <p id="status">Enfoque activo...</p>
-        <div class="timer-display" id="timer">02:00:00</div>
+        <header>
+            <h1>Aura Vision</h1>
+            <p class="subtitle">Ejercicios visuales para el trabajador cibernético</p>
+        </header>
 
-        <div class="btn-group">
-            <button onclick="setTheme('zen')">🍃 Zen</button>
-            <button onclick="setTheme('sea')">🌊 Mar</button>
+        <section class="timer-section">
+            <div class="timer-display" id="timer">03:30:00</div>
+            <p class="timer-info">Tu salud ocular es prioridad. Próximo descanso en:</p>
+        </section>
+
+        <div class="challenge-box">
+            <h3>Rutina de Salud Ocular</h3>
+            <p id="exercise-text">Prepárate para tu primer ejercicio...</p>
         </div>
 
-        <button class="btn-plus" onclick="togglePlus()">✨ Aura PLUS ($1)</button>
-        
-        <div id="modal-plus">
-            <h2 style="color: gold;">Aura Plus</h2>
-            <p>Ejercicios avanzados de enfoque</p>
-            <p>Precio: 1 USD / mes</p>
-            <button onclick="togglePlus()">Cerrar</button>
+        <div class="importance-msg">
+            <p>Recuerda realizar ejercicios visuales cada <strong>3 horas y 30 minutos</strong> para promover tu bienestar.</p>
+        </div>
+
+        <div class="btn-group">
+            <button onclick="toggleMusic()" id="musicBtn">🎵 Música: OFF</button>
+            <button onclick="nextExercise()">Siguiente Ejercicio ➔</button>
         </div>
     </div>
 
     <script>
-        let timeLeft = 7200;
+        let timeLeft = 12600; // 3 horas y 30 min en segundos
+        let musicPlaying = false;
+        const audio = document.getElementById('bgMusic');
+
+        const exercises = [
+            "🌿 **Texturas:** Busca una superficie natural (madera, tela o planta) y enfoca sus detalles por 20 segundos.",
+            "🎨 **Colores:** Encuentra 3 objetos de colores diferentes en tu habitación y mira cada uno fijamente.",
+            "🔄 **Músculos:** Mueve tus ojos lentamente de arriba hacia abajo, y luego de izquierda a derecha 5 veces.",
+            "🧘 **Pausa Total:** ¡Deja de mirar la pantalla! Respira profundo, estírate y descansa por 5 minutos."
+        ];
+
+        let currentEx = 0;
+
+        function nextExercise() {
+            currentEx = (currentEx + 1) % exercises.length;
+            document.getElementById('exercise-text').innerHTML = exercises[currentEx];
+        }
+
+        function toggleMusic() {
+            if (!musicPlaying) {
+                audio.play();
+                document.getElementById('musicBtn').innerText = "🎵 Música: ON";
+            } else {
+                audio.pause();
+                document.getElementById('musicBtn').innerText = "🎵 Música: OFF";
+            }
+            musicPlaying = !musicPlaying;
+        }
+
         function updateTimer() {
-            let h = Math.floor(timeLeft / 3600);
-            let m = Math.floor((timeLeft % 3600) / 60);
-            let s = timeLeft % 60;
+            const h = Math.floor(timeLeft / 3600);
+            const m = Math.floor((timeLeft % 3600) / 60);
+            const s = timeLeft % 60;
             document.getElementById('timer').innerText = 
-                `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-            if(timeLeft > 0) timeLeft--;
+                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            if (timeLeft > 0) timeLeft--;
         }
-        function togglePlus() {
-            const m = document.getElementById('modal-plus');
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
-        }
+
         setInterval(updateTimer, 1000);
+        nextExercise(); // Inicia con el primer ejercicio
     </script>
 </body>
 </html>
