@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura Vision | Salud Ocular</title>
     <style>
-        /* --- ESTILOS CSS --- */
         :root {
-            --glass: rgba(255, 255, 255, 0.28);
-            --lead-color: #333d3d; /* Plomo oscuro */
-            --lead-soft: #4a5555;  /* Plomo suave */
-            --accent: #2d5a5a;     /* Verde petroleo */
+            --glass: rgba(255, 255, 255, 0.3);
+            --lead-color: #333d3d; 
+            --lead-soft: #4a5555;  
+            --accent: #2d5a5a;     
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -20,16 +19,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
+            background: #0b312e; /* Color de respaldo */
         }
 
-        /* Fondo Responsivo */
         body {
             background: url('frontPC.png') no-repeat center center fixed;
             background-size: cover;
             opacity: 0;
-            transition: opacity 2s ease-in;
+            transition: opacity 1.5s ease-in;
         }
 
         @media (max-width: 768px) {
@@ -38,7 +37,6 @@
 
         .fade-in { opacity: 1 !important; }
 
-        /* Tarjeta de Vidrio */
         .glass-card {
             background: var(--glass);
             backdrop-filter: blur(20px);
@@ -52,78 +50,58 @@
             text-align: center;
         }
 
-        /* Textos Plomo */
-        h1 { font-size: 2.8rem; font-weight: 400; color: var(--lead-color); margin-bottom: 5px; }
-        .subtitle { font-size: 0.95rem; font-weight: 500; color: var(--lead-soft); margin-bottom: 25px; }
+        h1 { font-size: 2.8rem; color: var(--lead-color); margin-bottom: 5px; }
+        .subtitle { font-size: 1rem; font-weight: 600; color: var(--lead-soft); margin-bottom: 25px; }
 
         .timer-display {
             background: #333d3d;
             color: #ffffff;
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 700;
             padding: 15px 30px;
             border-radius: 20px;
             display: inline-block;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             font-family: monospace;
             margin-bottom: 15px;
         }
 
-        .importance-msg {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--lead-soft);
-            margin-bottom: 20px;
-        }
-
         .challenge-box {
-            background: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.5);
             margin-bottom: 25px;
             padding: 20px;
             border-radius: 25px;
             text-align: left;
-            border-left: 6px solid var(--accent);
+            border-left: 8px solid var(--accent);
         }
 
-        .challenge-box h3 { font-size: 1.1rem; color: var(--lead-color); margin-bottom: 8px; }
-        .challenge-box p { font-size: 0.95rem; color: var(--lead-soft); line-height: 1.4; }
-
-        /* Botones */
-        .btn-group { display: flex; gap: 12px; justify-content: center; }
+        .challenge-box h3 { color: var(--lead-color); margin-bottom: 5px; }
+        .challenge-box p { color: var(--lead-soft); font-size: 1.1rem; line-height: 1.4; }
 
         button {
             background: #ffffff;
             color: var(--lead-color);
-            border: 1px solid rgba(0,0,0,0.1);
-            padding: 12px 24px;
+            border: none;
+            padding: 15px 25px;
             border-radius: 50px;
-            font-weight: 600;
+            font-weight: bold;
             cursor: pointer;
-            transition: 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        button:hover { background: #f0f0f0; transform: translateY(-2px); }
-        .btn-next { background: var(--accent); color: white; border: none; }
+        .btn-next { background: var(--accent); color: white; margin-left: 10px; }
     </style>
 </head>
 <body onload="document.body.classList.add('fade-in')">
 
     <audio id="bgMusic" loop>
-        <source src="https://www.chosic.com/wp-content/uploads/2021/07/The-Northern-Path.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <div class="glass-card">
-        <header>
-            <h1>Aura Vision</h1>
-            <p class="subtitle">Ejercicios visuales para el trabajador cibernético</p>
-        </header>
+        <h1>Aura Vision</h1>
+        <p class="subtitle">Ejercicios para el trabajador cibernético</p>
 
-        <section>
-            <div class="timer-display" id="timer">03:30:00</div>
-            <p class="importance-msg">
-                Realiza estos ejercicios cada <strong>3 horas y 30 minutos</strong> para proteger tu salud ocular.
-            </p>
-        </section>
+        <div class="timer-display" id="timer">03:30:00</div>
 
         <div class="challenge-box">
             <h3 id="ex-title">Cargando...</h3>
@@ -131,65 +109,55 @@
         </div>
 
         <div class="btn-group">
-            <button onclick="toggleMusic()" id="musicBtn">🎶 Sonido Enya: OFF</button>
+            <button onclick="toggleMusic()" id="musicBtn">🎶 Música: OFF</button>
             <button onclick="nextExercise()" class="btn-next">Siguiente ➔</button>
         </div>
     </div>
 
     <script>
-        let timeLeft = 12600; 
-        let musicPlaying = false;
         const audio = document.getElementById('bgMusic');
-
-        const exercises = [
-            {
-                title: "Enfoque de Texturas",
-                desc: "Busca diferentes texturas a tu alrededor (madera, papel, telas). Enfoca tu vista en cada detalle por 20 segundos."
-            },
-            {
-                title: "Variedad de Colores",
-                desc: "Identifica 5 colores diferentes en tu entorno. Salta tu mirada de uno a otro para ejercitar la agudeza visual."
-            },
-            {
-                title: "Gimnasia Ocular",
-                desc: "Mueve tus ojos lentamente: mira hacia arriba, hacia abajo, y a los lados sin mover la cabeza."
-            },
-            {
-                title: "Pausa de 5 Minutos",
-                desc: "<strong>¡Suelta el mouse!</strong> Respira profundo, estírate, camina un poco y deja descansar tus ojos totalmente."
-            }
-        ];
-
-        let currentEx = 0;
-
-        function nextExercise() {
-            const ex = exercises[currentEx];
-            document.getElementById('ex-title').innerText = ex.title;
-            document.getElementById('ex-description').innerHTML = ex.desc;
-            currentEx = (currentEx + 1) % exercises.length;
-        }
+        let musicPlaying = false;
+        let timeLeft = 12600;
 
         function toggleMusic() {
             if (!musicPlaying) {
-                audio.play();
-                document.getElementById('musicBtn').innerText = "🎶 Sonido Enya: ON";
+                audio.play().then(() => {
+                    musicPlaying = true;
+                    document.getElementById('musicBtn').innerText = "🎶 Música: ON";
+                }).catch(e => alert("Haz clic en la pantalla primero para activar el sonido"));
             } else {
                 audio.pause();
-                document.getElementById('musicBtn').innerText = "🎶 Sonido Enya: OFF";
+                musicPlaying = false;
+                document.getElementById('musicBtn').innerText = "🎶 Música: OFF";
             }
-            musicPlaying = !musicPlaying;
         }
 
-        function updateTimer() {
-            const h = Math.floor(timeLeft / 3600);
-            const m = Math.floor((timeLeft % 3600) / 60);
-            const s = timeLeft % 60;
-            document.getElementById('timer').innerText = 
-                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-            if (timeLeft > 0) timeLeft--;
+        const exercises = [
+            { title: "Texturas", desc: "Mira una superficie de madera o tela por 20 segundos." },
+            { title: "Colores", desc: "Busca 3 objetos verdes y enfócalos uno a uno." },
+            { title: "Movimiento", desc: "Mira arriba y abajo lentamente 5 veces." },
+            { title: "Pausa", desc: "¡Cierra los ojos y respira por 1 minuto!" }
+        ];
+
+        let currentEx = 0;
+        function nextExercise() {
+            const ex = exercises[currentEx];
+            document.getElementById('ex-title').innerText = ex.title;
+            document.getElementById('ex-description').innerText = ex.desc;
+            currentEx = (currentEx + 1) % exercises.length;
         }
 
-        setInterval(updateTimer, 1000);
+        setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                const h = Math.floor(timeLeft / 3600);
+                const m = Math.floor((timeLeft % 3600) / 60);
+                const s = timeLeft % 60;
+                document.getElementById('timer').innerText = 
+                    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }
+        }, 1000);
+
         nextExercise();
     </script>
 </body>
