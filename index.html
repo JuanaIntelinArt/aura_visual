@@ -4,9 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura Vision | Salud Ocular</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- ESTILOS CSS --- */
+        :root {
+            --glass: rgba(255, 255, 255, 0.28);
+            --lead-color: #333d3d; /* Plomo oscuro */
+            --lead-soft: #4a5555;  /* Plomo suave */
+            --accent: #2d5a5a;     /* Verde petroleo */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Fondo Responsivo */
+        body {
+            background: url('frontPC.png') no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 2s ease-in;
+        }
+
+        @media (max-width: 768px) {
+            body { background: url('frontCelu.png') no-repeat center center fixed; background-size: cover; }
+        }
+
+        .fade-in { opacity: 1 !important; }
+
+        /* Tarjeta de Vidrio */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 40px;
+            padding: 40px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* Textos Plomo */
+        h1 { font-size: 2.8rem; font-weight: 400; color: var(--lead-color); margin-bottom: 5px; }
+        .subtitle { font-size: 0.95rem; font-weight: 500; color: var(--lead-soft); margin-bottom: 25px; }
+
+        .timer-display {
+            background: #333d3d;
+            color: #ffffff;
+            font-size: 3rem;
+            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            font-family: monospace;
+            margin-bottom: 15px;
+        }
+
+        .importance-msg {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--lead-soft);
+            margin-bottom: 20px;
+        }
+
+        .challenge-box {
+            background: rgba(255, 255, 255, 0.45);
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 25px;
+            text-align: left;
+            border-left: 6px solid var(--accent);
+        }
+
+        .challenge-box h3 { font-size: 1.1rem; color: var(--lead-color); margin-bottom: 8px; }
+        .challenge-box p { font-size: 0.95rem; color: var(--lead-soft); line-height: 1.4; }
+
+        /* Botones */
+        .btn-group { display: flex; gap: 12px; justify-content: center; }
+
+        button {
+            background: #ffffff;
+            color: var(--lead-color);
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover { background: #f0f0f0; transform: translateY(-2px); }
+        .btn-next { background: var(--accent); color: white; border: none; }
+    </style>
 </head>
-<body class="fade-in">
+<body onload="document.body.classList.add('fade-in')">
 
     <audio id="bgMusic" loop>
         <source src="https://www.chosic.com/wp-content/uploads/2021/07/The-Northern-Path.mp3" type="audio/mpeg">
@@ -14,26 +114,25 @@
 
     <div class="glass-card">
         <header>
-            <h1 class="lead-text">Aura Vision</h1>
-            <p class="subtitle lead-text">Ejercicios visuales para el trabajador cibernético</p>
+            <h1>Aura Vision</h1>
+            <p class="subtitle">Ejercicios visuales para el trabajador cibernético</p>
         </header>
 
-        <section class="timer-section">
+        <section>
             <div class="timer-display" id="timer">03:30:00</div>
-            <p class="importance-msg lead-text">
-                Recuerda la importancia de realizar ejercicios visuales cada <strong>3 horas y 30 minutos</strong>. 
-                Promueve tu salud ocular y tu bienestar integral.
+            <p class="importance-msg">
+                Realiza estos ejercicios cada <strong>3 horas y 30 minutos</strong> para proteger tu salud ocular.
             </p>
         </section>
 
-        <div class="challenge-box" id="exercise-box">
-            <h3 id="ex-title">Cargando rutina...</h3>
-            <p id="ex-description" class="lead-text">Prepárate para desconectar.</p>
+        <div class="challenge-box">
+            <h3 id="ex-title">Cargando...</h3>
+            <p id="ex-description">Relaja tu vista ahora.</p>
         </div>
 
         <div class="btn-group">
             <button onclick="toggleMusic()" id="musicBtn">🎶 Sonido Enya: OFF</button>
-            <button onclick="nextExercise()" class="btn-next">Siguiente Ejercicio ➔</button>
+            <button onclick="nextExercise()" class="btn-next">Siguiente ➔</button>
         </div>
     </div>
 
@@ -53,11 +152,11 @@
             },
             {
                 title: "Gimnasia Ocular",
-                desc: "Ejercita los músculos oculares: mira hacia arriba, hacia abajo, y a los lados lentamente sin mover la cabeza."
+                desc: "Mueve tus ojos lentamente: mira hacia arriba, hacia abajo, y a los lados sin mover la cabeza."
             },
             {
                 title: "Pausa de 5 Minutos",
-                desc: "<strong>¡Deja de mirar la pantalla!</strong> Respira profundo, estírate un poco, camina y vuelve renovado a trabajar."
+                desc: "<strong>¡Suelta el mouse!</strong> Respira profundo, estírate, camina un poco y deja descansar tus ojos totalmente."
             }
         ];
 
