@@ -3,124 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Vision | Salud Ocular</title>
+    <title>Aura Vision | Descanso Visual</title>
     <style>
-        /* --- ESTILOS --- */
-        :root {
-            --glass: rgba(255, 255, 255, 0.28);
-            --lead-color: #333d3d; /* Plomo oscuro */
-            --lead-soft: #4a5555;  /* Plomo suave */
-            --accent: #2d5a5a;     /* Verde petroleo */
-        }
-
+        /* --- RESET TOTAL PARA EVITAR ERRORES --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body, html {
-            height: 100vh;
+            height: 100%;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            overflow: hidden;
-            background-color: #0b312e;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #0b312e; /* Color oscuro por si falla la imagen */
         }
 
-        /* FONDO RESPONSIVO: Aquí está la clave para que se vea bien en PC */
+        /* --- CONTROL DE FONDO --- */
         body {
-            background: url('frontPC.png') no-repeat center center fixed;
+            /* IMPORTANTE: Revisa que tus archivos se llamen exactamente frontPC.png */
+            background-image: url('frontPC.png');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             background-size: cover;
-            opacity: 0;
-            transition: opacity 1.5s ease-in;
         }
 
+        /* Versión Celular */
         @media (max-width: 768px) {
-            body { 
-                background: url('frontCelu.png') no-repeat center center; 
-                background-size: cover;
+            body {
+                background-image: url('frontCelu.png');
             }
         }
 
-        .fade-in { opacity: 1 !important; }
-
-        /* TARJETA */
+        /* --- TARJETA DE CRISTAL --- */
         .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 40px;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 35px;
             width: 90%;
-            max-width: 480px;
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
             text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
-        h1 { font-size: 2.8rem; font-weight: 400; color: var(--lead-color); margin-bottom: 5px; }
-        .subtitle { font-size: 0.95rem; font-weight: 500; color: var(--lead-soft); margin-bottom: 25px; }
+        /* TEXTOS PLOMO OSCURO */
+        h1 { color: #333d3d; font-size: 2.5rem; margin-bottom: 10px; }
+        .subtitle { color: #4a5555; font-size: 1rem; margin-bottom: 20px; font-weight: 600; }
 
-        .timer-display {
+        .timer-box {
             background: #333d3d;
             color: #ffffff;
             font-size: 3rem;
-            font-weight: 700;
-            padding: 15px 30px;
-            border-radius: 20px;
+            padding: 15px;
+            border-radius: 15px;
             display: inline-block;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
             font-family: monospace;
-            margin-bottom: 15px;
         }
 
-        .importance-msg {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--lead-soft);
+        .exercise-container {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: left;
+            border-left: 6px solid #2d5a5a;
             margin-bottom: 20px;
         }
 
-        .challenge-box {
-            background: rgba(255, 255, 255, 0.45);
-            margin-bottom: 25px;
-            padding: 20px;
-            border-radius: 25px;
-            text-align: left;
-            border-left: 6px solid var(--accent);
-        }
-
-        .challenge-box h3 { font-size: 1.1rem; color: var(--lead-color); margin-bottom: 8px; }
-        .challenge-box p { font-size: 0.95rem; color: var(--lead-soft); line-height: 1.4; }
+        .exercise-container h3 { color: #333d3d; margin-bottom: 5px; }
+        .exercise-container p { color: #4a5555; line-height: 1.4; }
 
         button {
-            background: var(--accent);
+            background: #2d5a5a;
             color: white;
             border: none;
             padding: 15px 30px;
             border-radius: 50px;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: 0.3s ease;
+            width: 100%;
         }
-
-        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
-<body onload="document.body.classList.add('fade-in')">
+<body>
 
     <div class="glass-card">
-        <header>
-            <h1>Aura Vision</h1>
-            <p class="subtitle">Ejercicios visuales para el trabajador cibernético</p>
-        </header>
+        <h1>Aura Vision</h1>
+        <p class="subtitle">Salud para el trabajador cibernético</p>
 
-        <section>
-            <div class="timer-display" id="timer">03:30:00</div>
-            <p class="importance-msg">
-                Realiza estos ejercicios cada <strong>3 horas y 30 minutos</strong> para proteger tu salud ocular.
-            </p>
-        </section>
+        <div class="timer-box" id="timer">03:30:00</div>
 
-        <div class="challenge-box">
+        <div class="exercise-container">
             <h3 id="ex-title">Cargando...</h3>
             <p id="ex-description">Relaja tu vista ahora.</p>
         </div>
@@ -132,43 +109,31 @@
         let timeLeft = 12600; 
 
         const exercises = [
-            {
-                title: "Enfoque de Texturas",
-                desc: "Busca diferentes texturas a tu alrededor (madera, papel, telas). Enfoca tu vista en cada detalle por 20 segundos."
-            },
-            {
-                title: "Variedad de Colores",
-                desc: "Identifica 5 colores diferentes en tu entorno. Salta tu mirada de uno a otro para ejercitar la agudeza visual."
-            },
-            {
-                title: "Gimnasia Ocular",
-                desc: "Ejercita los músculos oculares: mira hacia arriba, hacia abajo, y a los lados lentamente sin mover la cabeza."
-            },
-            {
-                title: "Pausa de 5 Minutos",
-                desc: "¡Deja de mirar la pantalla! Respira profundo, estírate un poco y descansa tus ojos totalmente."
-            }
+            { title: "Texturas", desc: "Busca superficies naturales y enfoca detalles por 20 segundos." },
+            { title: "Colores", desc: "Encuentra 5 colores diferentes en tu entorno y míralos." },
+            { title: "Movimiento", desc: "Mira arriba y abajo lentamente 5 veces sin mover la cabeza." },
+            { title: "Pausa Total", desc: "Cierra los ojos y respira profundo por 1 minuto." }
         ];
 
         let currentEx = 0;
-
         function nextExercise() {
             const ex = exercises[currentEx];
             document.getElementById('ex-title').innerText = ex.title;
-            document.getElementById('ex-description').innerHTML = ex.desc;
+            document.getElementById('ex-description').innerText = ex.desc;
             currentEx = (currentEx + 1) % exercises.length;
         }
 
-        function updateTimer() {
-            const h = Math.floor(timeLeft / 3600);
-            const m = Math.floor((timeLeft % 3600) / 60);
-            const s = timeLeft % 60;
-            document.getElementById('timer').innerText = 
-                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-            if (timeLeft > 0) timeLeft--;
-        }
+        setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                const h = Math.floor(timeLeft / 3600);
+                const m = Math.floor((timeLeft % 3600) / 60);
+                const s = timeLeft % 60;
+                document.getElementById('timer').innerText = 
+                    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }
+        }, 1000);
 
-        setInterval(updateTimer, 1000);
         nextExercise();
     </script>
 </body>
