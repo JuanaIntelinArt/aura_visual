@@ -3,113 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Vision | Salud Ocular</title>
+    <title>Aura Vision | Zen</title>
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.3);
+            --glass: rgba(255, 255, 255, 0.28);
             --lead-color: #333d3d; 
             --lead-soft: #4a5555;  
             --accent: #2d5a5a;     
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body, html {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', sans-serif;
-            overflow: hidden;
-            background: #0b312e; /* Color de respaldo */
+        body, html { height: 100vh; display: flex; align-items: center; justify-content: center; font-family: sans-serif; overflow: hidden; background: #0b312e; }
+        body { 
+            background: url('frontPC.png') no-repeat center center fixed; 
+            background-size: cover; 
+            opacity: 0; 
+            transition: opacity 1.5s ease; 
         }
-
-        body {
-            background: url('frontPC.png') no-repeat center center fixed;
-            background-size: cover;
-            opacity: 0;
-            transition: opacity 1.5s ease-in;
-        }
-
-        @media (max-width: 768px) {
-            body { background: url('frontCelu.png') no-repeat center center fixed; background-size: cover; }
-        }
-
         .fade-in { opacity: 1 !important; }
-
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 40px;
-            padding: 40px;
-            width: 90%;
-            max-width: 480px;
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
-            text-align: center;
+        @media (max-width: 768px) { body { background: url('frontCelu.png') no-repeat center center fixed; background-size: cover; } }
+        
+        .glass-card { 
+            background: var(--glass); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.4); 
+            border-radius: 40px; 
+            padding: 40px; 
+            width: 90%; 
+            max-width: 480px; 
+            text-align: center; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
         }
-
-        h1 { font-size: 2.8rem; color: var(--lead-color); margin-bottom: 5px; }
-        .subtitle { font-size: 1rem; font-weight: 600; color: var(--lead-soft); margin-bottom: 25px; }
-
-        .timer-display {
-            background: #333d3d;
-            color: #ffffff;
-            font-size: 3.2rem;
-            font-weight: 700;
-            padding: 15px 30px;
-            border-radius: 20px;
-            display: inline-block;
-            font-family: monospace;
-            margin-bottom: 15px;
+        
+        h1 { font-size: 2.5rem; color: var(--lead-color); margin-bottom: 10px; font-weight: 400; }
+        .timer-display { background: #333d3d; color: white; font-size: 3rem; padding: 15px; border-radius: 20px; display: inline-block; font-family: monospace; margin-bottom: 20px; }
+        
+        .challenge-box { 
+            background: rgba(255, 255, 255, 0.5); 
+            padding: 20px; 
+            border-radius: 25px; 
+            text-align: left; 
+            border-left: 8px solid var(--accent); 
+            margin-bottom: 20px; 
         }
-
-        .challenge-box {
-            background: rgba(255, 255, 255, 0.5);
-            margin-bottom: 25px;
-            padding: 20px;
-            border-radius: 25px;
-            text-align: left;
-            border-left: 8px solid var(--accent);
+        .challenge-box h3 { color: var(--lead-color); margin-bottom: 5px; font-size: 1.1rem; }
+        .challenge-box p { color: var(--lead-soft); font-size: 1rem; line-height: 1.4; }
+        
+        .btn-group { display: flex; gap: 10px; justify-content: center; }
+        button { 
+            background: white; 
+            color: var(--lead-color); 
+            border: none; 
+            padding: 15px 25px; 
+            border-radius: 50px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s;
         }
-
-        .challenge-box h3 { color: var(--lead-color); margin-bottom: 5px; }
-        .challenge-box p { color: var(--lead-soft); font-size: 1.1rem; line-height: 1.4; }
-
-        button {
-            background: #ffffff;
-            color: var(--lead-color);
-            border: none;
-            padding: 15px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .btn-next { background: var(--accent); color: white; margin-left: 10px; }
+        button:hover { background: #f0f0f0; }
+        .btn-next { background: var(--accent); color: white; }
     </style>
 </head>
 <body onload="document.body.classList.add('fade-in')">
 
     <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="https://www.chosic.com/wp-content/uploads/2021/04/Enchanted-Valley.mp3" type="audio/mpeg">
     </audio>
 
     <div class="glass-card">
         <h1>Aura Vision</h1>
-        <p class="subtitle">Ejercicios para el trabajador cibernético</p>
-
         <div class="timer-display" id="timer">03:30:00</div>
-
+        
         <div class="challenge-box">
             <h3 id="ex-title">Cargando...</h3>
-            <p id="ex-description">Relaja tu vista ahora.</p>
+            <p id="ex-description">Presiona Musica para iniciar.</p>
         </div>
 
         <div class="btn-group">
-            <button onclick="toggleMusic()" id="musicBtn">🎶 Música: OFF</button>
+            <button onclick="toggleMusic()" id="musicBtn">Musica</button>
             <button onclick="nextExercise()" class="btn-next">Siguiente ➔</button>
         </div>
     </div>
@@ -123,20 +94,20 @@
             if (!musicPlaying) {
                 audio.play().then(() => {
                     musicPlaying = true;
-                    document.getElementById('musicBtn').innerText = "🎶 Música: ON";
-                }).catch(e => alert("Haz clic en la pantalla primero para activar el sonido"));
+                    document.getElementById('musicBtn').style.background = "#e0f2f1";
+                }).catch(e => console.log("Esperando interacción"));
             } else {
                 audio.pause();
                 musicPlaying = false;
-                document.getElementById('musicBtn').innerText = "🎶 Música: OFF";
+                document.getElementById('musicBtn').style.background = "white";
             }
         }
 
         const exercises = [
-            { title: "Texturas", desc: "Mira una superficie de madera o tela por 20 segundos." },
-            { title: "Colores", desc: "Busca 3 objetos verdes y enfócalos uno a uno." },
-            { title: "Movimiento", desc: "Mira arriba y abajo lentamente 5 veces." },
-            { title: "Pausa", desc: "¡Cierra los ojos y respira por 1 minuto!" }
+            { title: "Texturas", desc: "Busca una superficie natural y enfoca sus detalles por 20 segundos." },
+            { title: "Colores", desc: "Encuentra 3 colores distintos a tu alrededor y míralos fijamente." },
+            { title: "Músculos", desc: "Mueve tus ojos de arriba a abajo lentamente 5 veces." },
+            { title: "Pausa Real", desc: "¡Suelta la pantalla! Respira profundo y camina 5 minutos." }
         ];
 
         let currentEx = 0;
