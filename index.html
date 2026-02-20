@@ -6,64 +6,77 @@
     <title>Aura Vision | Salud Ocular</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="fade-in">
 
     <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
+        <source src="https://www.chosic.com/wp-content/uploads/2021/07/The-Northern-Path.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="glass-card">
         <header>
-            <h1>Aura Vision</h1>
-            <p class="subtitle">Ejercicios visuales para el trabajador cibernético</p>
+            <h1 class="lead-text">Aura Vision</h1>
+            <p class="subtitle lead-text">Ejercicios visuales para el trabajador cibernético</p>
         </header>
 
         <section class="timer-section">
             <div class="timer-display" id="timer">03:30:00</div>
-            <p class="timer-info">Tu salud ocular es prioridad. Próximo descanso en:</p>
+            <p class="importance-msg lead-text">
+                Recuerda la importancia de realizar ejercicios visuales cada <strong>3 horas y 30 minutos</strong>. 
+                Promueve tu salud ocular y tu bienestar integral.
+            </p>
         </section>
 
-        <div class="challenge-box">
-            <h3>Rutina de Salud Ocular</h3>
-            <p id="exercise-text">Prepárate para tu primer ejercicio...</p>
-        </div>
-
-        <div class="importance-msg">
-            <p>Recuerda realizar ejercicios visuales cada <strong>3 horas y 30 minutos</strong> para promover tu bienestar.</p>
+        <div class="challenge-box" id="exercise-box">
+            <h3 id="ex-title">Cargando rutina...</h3>
+            <p id="ex-description" class="lead-text">Prepárate para desconectar.</p>
         </div>
 
         <div class="btn-group">
-            <button onclick="toggleMusic()" id="musicBtn">🎵 Música: OFF</button>
-            <button onclick="nextExercise()">Siguiente Ejercicio ➔</button>
+            <button onclick="toggleMusic()" id="musicBtn">🎶 Sonido Enya: OFF</button>
+            <button onclick="nextExercise()" class="btn-next">Siguiente Ejercicio ➔</button>
         </div>
     </div>
 
     <script>
-        let timeLeft = 12600; // 3 horas y 30 min en segundos
+        let timeLeft = 12600; 
         let musicPlaying = false;
         const audio = document.getElementById('bgMusic');
 
         const exercises = [
-            "🌿 **Texturas:** Busca una superficie natural (madera, tela o planta) y enfoca sus detalles por 20 segundos.",
-            "🎨 **Colores:** Encuentra 3 objetos de colores diferentes en tu habitación y mira cada uno fijamente.",
-            "🔄 **Músculos:** Mueve tus ojos lentamente de arriba hacia abajo, y luego de izquierda a derecha 5 veces.",
-            "🧘 **Pausa Total:** ¡Deja de mirar la pantalla! Respira profundo, estírate y descansa por 5 minutos."
+            {
+                title: "Enfoque de Texturas",
+                desc: "Busca diferentes texturas a tu alrededor (madera, papel, telas). Enfoca tu vista en cada detalle por 20 segundos."
+            },
+            {
+                title: "Variedad de Colores",
+                desc: "Identifica 5 colores diferentes en tu entorno. Salta tu mirada de uno a otro para ejercitar la agudeza visual."
+            },
+            {
+                title: "Gimnasia Ocular",
+                desc: "Ejercita los músculos oculares: mira hacia arriba, hacia abajo, y a los lados lentamente sin mover la cabeza."
+            },
+            {
+                title: "Pausa de 5 Minutos",
+                desc: "<strong>¡Deja de mirar la pantalla!</strong> Respira profundo, estírate un poco, camina y vuelve renovado a trabajar."
+            }
         ];
 
         let currentEx = 0;
 
         function nextExercise() {
+            const ex = exercises[currentEx];
+            document.getElementById('ex-title').innerText = ex.title;
+            document.getElementById('ex-description').innerHTML = ex.desc;
             currentEx = (currentEx + 1) % exercises.length;
-            document.getElementById('exercise-text').innerHTML = exercises[currentEx];
         }
 
         function toggleMusic() {
             if (!musicPlaying) {
                 audio.play();
-                document.getElementById('musicBtn').innerText = "🎵 Música: ON";
+                document.getElementById('musicBtn').innerText = "🎶 Sonido Enya: ON";
             } else {
                 audio.pause();
-                document.getElementById('musicBtn').innerText = "🎵 Música: OFF";
+                document.getElementById('musicBtn').innerText = "🎶 Sonido Enya: OFF";
             }
             musicPlaying = !musicPlaying;
         }
@@ -78,7 +91,7 @@
         }
 
         setInterval(updateTimer, 1000);
-        nextExercise(); // Inicia con el primer ejercicio
+        nextExercise();
     </script>
 </body>
 </html>
